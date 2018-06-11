@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour {
+public class MouseManager : MonoBehaviour {
+
+	/* Currently, once the color has changed on an object, I do not know how to reset it specifically to what it was.
+	 * I believe I will need to utilize GetComponent<Renderer>().material in some way, but I am not sure how to make it work just yet.
+	 * */
 
 	public GameObject selectedObject;
 
 	void Start(){
-		
+
 	}
 
 	void Update(){
@@ -54,10 +58,32 @@ public class TestScript : MonoBehaviour {
 		}
 
 		selectedObject = obj;
+
+		Renderer[] rends = selectedObject.GetComponentsInChildren<Renderer> ();
+		foreach(Renderer rend in rends){
+			Material m = rend.material;// This is equivalent to rend.materials[0] for if there are more than one materials.
+			m.color = Color.green;
+			/*This currently only adjusts the single selected unit's material
+			 * If we instead said r.SharedMaterials, then it would change it for any object using that same material.
+			 * */
+			rend.material = m;
+		}
 	}
 
 	void ClearSelection (){
+		if (selectedObject == null)
+			return;
+
+		Renderer[] rends = selectedObject.GetComponentsInChildren<Renderer> ();
+		foreach(Renderer rend in rends){
+			Material m = rend.material;// This is equivalent to rend.materials[0] for if there are more than one materials.
+			m.color = Color.white;
+			/*This currently only adjusts the single selected unit's material
+			 * If we instead said r.SharedMaterials, then it would change it for any object using that same material.
+			 * */
+			rend.material = m;
+		}
+
 		selectedObject = null;
 	}
-
 }

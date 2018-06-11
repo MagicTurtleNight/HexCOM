@@ -20,7 +20,7 @@ public class PillarStandard : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		transform.position = initialPosition;
+		this.transform.position = initialPosition;
 		//Edits position to starting position on initialization.
 		//Now also sets the target destination so no movement occurs accidentally.
 		//Debug.Log ("It's printing out"); it is
@@ -53,12 +53,12 @@ public class PillarStandard : MonoBehaviour {
 
 	public IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove)
 	{
-		var currentPos = transform.position;
+		var currentPos = this.transform.position;
 		var t = 0f;
 		while(t < 1)
 		{
 			t += Time.deltaTime / timeToMove;
-			transform.position = Vector3.Lerp(currentPos, position, t);
+			this.transform.position = Vector3.Lerp(currentPos, position, t);
 			yield return null;
 		}
 	}
