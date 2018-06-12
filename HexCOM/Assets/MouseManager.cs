@@ -7,13 +7,11 @@ public class MouseManager : MonoBehaviour {
 	/* Currently, once the color has changed on an object, I do not know how to reset it specifically to what it was.
 	 * I believe I will need to utilize GetComponent<Renderer>().material in some way, but I am not sure how to make it work just yet.
 	 * */
-	Vector3 initialPosition;// = new Vector3(0.0f, 10.0f, 0.0f);
-	Vector3 upwardPosition;// = new Vector3(0.0f, 12.0f, 0.0f);
+
 	public GameObject selectedObject;
-	int over;
 
 	void Start(){
-		//over = 0;
+		
 	}
 
 	void Update(){
@@ -47,15 +45,10 @@ public class MouseManager : MonoBehaviour {
 			// transform.parent via some means, like testing for a specific collider.
 
 
-			//initialPosition = hitObject.transform.position;
-			//upwardPosition = initialPosition;
-			//upwardPosition.y += 2;
-
 			SelectObject (hitObject);
 
 		} 
 		else {
-			//StartCoroutine (MoveToPosition(selectedObject, initialPosition, 1));
 			ClearSelection ();
 		}
 	}
@@ -81,9 +74,6 @@ public class MouseManager : MonoBehaviour {
 			rend.material = m;
 		}
 
-		//if (over == 0)
-		//	StartCoroutine (MoveToPosition(selectedObject, upwardPosition, 1));
-
 	}
 
 	void ClearSelection (){
@@ -102,21 +92,6 @@ public class MouseManager : MonoBehaviour {
 
 
 		selectedObject = null;
-		//over = 0;
 
 	}
-	/*
-	public IEnumerator MoveToPosition(GameObject selectedObject, Vector3 position, float timeToMove)
-	{
-		over = 1;
-		var currentPos = selectedObject.transform.position;
-		var t = 0f;
-		while(t < 1)
-		{
-			t += Time.deltaTime / timeToMove;
-			selectedObject.transform.position = Vector3.Lerp(currentPos, position, t);
-			yield return null;
-		}
-	}
-	*/
 }
