@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class PillarStandard : MonoBehaviour {
 	
-	Vector3 initialPosition = new Vector3(0.0f, 5.0f, 0.0f);
+	Vector3 initialPosition;// = new Vector3(0.0f, 5.0f, 0.0f);
 	/* The pillar currently has a height of ten units. I am setting it at a height of 5 as a middle point to move from.
 	 * Eventually we will want to avoid this.
 	 * We will probably set up the levels our selves and not want to care about where exactly it is, only that it goes up/down.
 	 * Once/if we do so, we will need to have the script find the starting position and just use that. I think.
 	 * */
-	Vector3 upwardPosition = new Vector3(0.0f, 10.0f, 0.0f);
-	Vector3 downwardPosition = new Vector3(0.0f, 0.0f, 0.0f);
+	Vector3 upwardPosition;// = new Vector3(0.0f, 10.0f, 0.0f);
+	//Vector3 downwardPosition = new Vector3(0.0f, 0.0f, 0.0f);
 	//The desired positions 
 
-	Vector3 targetPosition;
-	float timeToReachTarget;
+	//Vector3 targetPosition;
+	//float timeToReachTarget;
 
 	// Use this for initialization
 	void Start () {
-
-		this.transform.position = initialPosition;
+		Debug.Log ("It is printing");
+		initialPosition = GetComponent<Collider>().transform.root.position;
+		upwardPosition = initialPosition;
+		upwardPosition.y += 2;
 		//Edits position to starting position on initialization.
 		//Now also sets the target destination so no movement occurs accidentally.
 		//Debug.Log ("It's printing out"); it is
@@ -28,8 +30,9 @@ public class PillarStandard : MonoBehaviour {
 	}
 
 	// Update is called once per frame
+	/*
 	void Update () {
-
+		
 		targetPosition = transform.position;
 
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
@@ -50,15 +53,26 @@ public class PillarStandard : MonoBehaviour {
 		}
 
 	}
+	*/
+
+	void OnMouseEnter(){
+		Debug.Log ("Mouse entered");
+		StartCoroutine (MoveToPosition(GetComponent<Collider>().transform.root, upwardPosition, 0.3f));
+	}
+
+	void OnMouseExit(){
+		Debug.Log ("Mouse left");
+		StartCoroutine (MoveToPosition(GetComponent<Collider>().transform.root, initialPosition, 0.3f));
+	}
 
 	public IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove)
 	{
-		var currentPos = this.transform.position;
+		var currentPos = GetComponent<Collider>().transform.root.position;
 		var t = 0f;
 		while(t < 1)
 		{
 			t += Time.deltaTime / timeToMove;
-			this.transform.position = Vector3.Lerp(currentPos, position, t);
+			GetComponent<Collider>().transform.root.position = Vector3.Lerp(currentPos, position, t);
 			yield return null;
 		}
 	}
